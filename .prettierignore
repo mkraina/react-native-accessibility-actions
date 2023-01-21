@@ -1,0 +1,9 @@
+.github/*
+node_modules/*
+.vscode/*
+bin/
+build/*
+env.json
+
+ios/*
+android/*
