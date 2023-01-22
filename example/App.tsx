@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import { useAccessibilityActions } from 'react-native-accessibility-actions';
 
+import { Adjustable } from './src/Adjustable';
+
 const onPressMore = () => console.warn('on more info');
 const onPressDirections = () => console.warn('on directions');
 
@@ -10,6 +12,7 @@ export default function App() {
   const canDecrease = x > 0;
   const increaseValue = () => setX(c => c + 1);
   const decreaseValue = () => setX(c => c - 1);
+  console.warn(useAccessibilityActions);
   return (
     <View style={styles.container}>
       <Text>Open up App.tsx to start working on your app!</Text>
@@ -33,6 +36,7 @@ export default function App() {
       >
         <Text>{x}</Text>
       </View>
+      <Adjustable />
     </View>
   );
 }

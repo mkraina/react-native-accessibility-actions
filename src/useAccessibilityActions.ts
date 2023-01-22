@@ -28,27 +28,49 @@ export type AccessibilityActions = Record<
   AccessibilityAction | undefined
 >;
 
+type Props = {
+  accessibilityActions: AccessibilityActionInfo[];
+  accessibilityRole?: AccessibilityProps['accessibilityRole'];
+};
+
 export const useAccessibilityActions = (
   actionsGetter: () => AccessibilityActions,
   deps: React.DependencyList
 ): AccessibilityProps => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const actions = useMemo(() => actionsGetter(), deps);
-  const accessibilityActions = useMemo(
-    () =>
-      Object.entries(actions).reduce<AccessibilityActionInfo[]>((acc, [key, value]) => {
+  const props = useMemo<Props>(() => {
+    const accessibilityRole: AccessibilityProps['accessibilityRole'] =
+      !!actions.increment || !!actions.decrement ? 'adjustable' : undefined;
+    const nonAdjustableActions: string[] = [];
+    const accessibilityActions = Object.entries(actions).reduce<AccessibilityActionInfo[]>(
+      (acc, [key, value]) => {
         if (!value || (value.disabled && key !== 'activate')) return acc;
-        return [...acc, { name: key, label: value.label }];
-      }, []),
-    [actions]
-  );
+        const isAdjustableAction = key === 'increment' || key === 'decrement';
+        /*if (accessibilityRole === 'adjustable' && !isAdjustableAction) {
+          __DEV__ && nonAdjustableActions.push(key);
+          return acc;
+        }*/
+        return [...acc, { name: key, label: isAdjustableAction ? undefined : value.label }];
+      },
+      []
+    );
+    if (accessibilityRole !== 'adjustable') return { accessibilityActions };
+    if (nonAdjustableActions.length)
+      console.warn(
+        `hola, custom actions cannot be provided alongside "increment" or "decrement" which makes component "adjustable".
+          provided actions: ${nonAdjustableActions.join('\n')}`
+      );
+
+    return { accessibilityActions, accessibilityRole };
+  }, [actions]);
 
   const onAccessibilityAction = useEventCallback((event: AccessibilityActionEvent) => {
     actions[event.nativeEvent.actionName]?.onAction();
   });
 
   return useMemo<AccessibilityProps>(
-    () => ({ accessibilityActions, onAccessibilityAction }),
-    [accessibilityActions, onAccessibilityAction]
+    () => ({ ...props, onAccessibilityAction }),
+    [props, onAccessibilityAction]
   );
 };
