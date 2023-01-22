@@ -15,7 +15,10 @@ module.exports = {
       parserOptions: {
         project: './tsconfig.json',
       },
-      rules: { '@typescript-eslint/no-unnecessary-condition': 'error' },
+      rules: {
+        '@typescript-eslint/no-unnecessary-condition': 'error',
+        '@typescript-eslint/no-var-requires': 'error',
+      },
     },
   ],
   ignorePatterns: ['node_modules/'],
@@ -58,5 +61,12 @@ module.exports = {
       },
     ],
     'simple-import-sort/exports': 'error',
+    'react-hooks/exhaustive-deps': [
+      'error',
+      {
+        additionalHooks: '(useAccessibilityActions)',
+      },
+    ],
+    '@typescript-eslint/no-var-requires': 'off',
   },
 };

@@ -4,6 +4,8 @@ node_modules/*
 bin/
 build/*
 env.json
+*.xcframework
+Pods
 
 ios/*
 android/*

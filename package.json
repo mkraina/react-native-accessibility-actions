@@ -3,17 +3,19 @@
   "version": "0.0.1",
   "description": "Simplify handling accessibility actions in React Native apps.",
   "main": "lib/index.js",
+  "source": "src/index",
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nasmuris/react-native-accessibility-actions"
   },
   "scripts": {
-    "build": "tsc",
-    "tscheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx --cache",
+    "tscheck": "tsc --noEmit",
+    "build": "tsc --project tsconfig.build.json",
     "verify": "yarn run lint --quiet && yarn tscheck",
-    "prepare": "yarn build"
+    "bootstrap": "yarn --cwd example && yarn && (cd example && cd ios && pod install)",
+    "prepare": "yarn build && husky install"
   },
   "keywords": [
     "react native",
@@ -29,10 +31,11 @@
   ],
   "devDependencies": {
     "@react-native-community/eslint-config": "^3.2.0",
-    "@types/react": "^16.9",
-    "@types/react-native": "^0.62",
+    "@types/react": "18.0",
+    "@types/react-native": "0.69",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
+    "@prettier/plugin-xml": "^2.2.0",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-import-resolver-typescript": "^3.5.3",
@@ -41,7 +44,9 @@
     "eslint-plugin-simple-import-sort": "^9.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
-    "prettier": "^2.8.2",
+    "prettier": "^2.3.2",
+    "react": "18.0.0",
+    "react-native": "0.69.8",
     "typescript": "^4.9.4"
   },
   "peerDependencies": {

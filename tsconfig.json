@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "react-native-accessibility-actions": ["./src/index"]
+    },
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
@@ -7,14 +11,12 @@
     "isolatedModules": true,
     "jsx": "react-native",
     "lib": ["es2017"],
-    "module": "es6",
+    "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "./lib",
-    "strict": true,
-    "target": "es6",
-    "skipLibCheck": true,
+    "outDir": "lib",
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["src"]
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "esnext"
+  }
 }
