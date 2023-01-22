@@ -9,4 +9,6 @@ module.exports = {
   trailingComma: 'es5',
   useTabs: false,
   endOfLine: 'lf',
+  xmlSelfClosingSpace: false,
+  xmlWhitespaceSensitivity: 'ignore'
 };
