@@ -45,6 +45,7 @@ module.exports = {
         ],
       },
     ],
+    '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
     'prettier/prettier': 'error',
     radix: ['error', 'as-needed'],
     'simple-import-sort/imports': [

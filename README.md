@@ -1,5 +1,7 @@
 # react-native-accessibility-actions
 Simplify handling accessibility actions in React Native apps.
+- [useAccessibilityActions](#useAccessibilityActions)
+- [withAccessibilityActions](#withAccessibilityActions)
 
 ## useAccessibilityActions
 Helper hook to provide both `onAccessibilityAction` and `accessibilityActions` to an element.
@@ -86,3 +88,43 @@ Using the helper hook
   )}
 />;
 ```
+
+## withAccessibilityActions
+ HOC providing `onPress` callbacks from nested accessible components as `accessibilityActions`, so there is no need to provide those actions manually.
+
+### Parameters
+  onlyProvideActionsToWrapper?: boolean
+1. WrappedComponent
+    - component component to be provided with `accessibilityActions`
+    - component providing `accessibilityActions` to the top level component
+2. getDefaultAccessibilityActionLabel
+    - optional
+    - default: `undefined`
+    - callback to automatically retrieve the accessibility action `label` from props
+    - ```
+      export const AccessibleText = withAccessibilityActions(Button, props => props.title)
+      ```
+3. onlyProvideActionsToWrapper
+    - optional
+    - default: `false`
+    - in some cases the component shouldn't be provided with accessibility actions itself, but still should provide the action to the top level accessible component
+    
+
+### Example
+``` 
+const Pressable = withAccessibilityActions(TouchableOpacity);
+export const Button = withAccessibilityActions(RNButton, ({ title }) => title);
+...
+  <Pressable onPress={openDetails}>
+    <Button 
+      accessibilityActionLabel="Show 4 notifications"
+      title="4 notifications"
+      onPress={openNotifications}
+    />
+    <Button 
+      title="Like"
+      onPress={likeProduct}
+    />
+  </Pressable>
+```
+wrapping `Pressable` would receive accessibilityActions named `Show 4 notifications` with action of `openNotifications` & `Like` with action of `likeProduct`

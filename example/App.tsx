@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet, View } from 'react-native';
 import { useAccessibilityActions } from 'react-native-accessibility-actions';
+
+import { HorizontalList } from './src/HorizontalList';
+import { Text } from './src';
 
 const onPressMore = () => console.warn('on more info');
 const onPressDirections = () => console.warn('on directions');
 
-export default function App() {
+const App = React.memo(() => {
   const [x, setX] = useState(2);
   const canDecrease = x > 0;
   const increaseValue = () => setX(c => c + 1);
   const decreaseValue = () => setX(c => c - 1);
+  const moreInfoLabel = x % 2 ? 'More' : 'More info';
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar translucent barStyle="dark-content" />
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#EEEEEE" />
+      <Text style={styles.headline}>Welcome</Text>
       <View
         accessible
         style={styles.a11yActionsView}
         {...useAccessibilityActions(
           () => ({
-            more_info: { label: 'More Info', onAction: onPressMore },
+            more_info: { label: moreInfoLabel, onAction: onPressMore },
             get_directions: { label: 'Get Directions', onAction: onPressDirections },
             increaseValue: { label: 'Increase value', onAction: increaseValue },
             decreaseValue: {
@@ -28,25 +32,31 @@ export default function App() {
               disabled: !canDecrease,
             },
           }),
-          [canDecrease]
+          [canDecrease, moreInfoLabel]
         )}
       >
-        <Text>{x}</Text>
+        <Text accessible={false}>{x}</Text>
       </View>
-    </View>
+      <HorizontalList
+        title="a11y actions test"
+        data={[
+          { title: 'First item', subtitle: 'lorem ipsum' },
+          { title: 'Second item', subtitle: 'dolor sit amet' },
+        ]}
+      />
+    </SafeAreaView>
   );
-}
+});
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  container: { flex: 1, backgroundColor: '#EEEEEE' },
+  headline: { textAlign: 'center' },
   a11yActionsView: {
-    alignSelf: 'stretch',
-    height: 40,
-    backgroundColor: 'yellow',
+    padding: 16,
+    alignSelf: 'center',
+    aspectRatio: 1,
   },
+  button: { margin: 8 },
 });
+
+export default () => <App />;

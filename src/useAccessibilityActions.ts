@@ -2,31 +2,11 @@ import { useMemo } from 'react';
 import {
   AccessibilityActionEvent,
   AccessibilityActionInfo,
-  AccessibilityActionName,
   AccessibilityProps,
 } from 'react-native';
 import useEventCallback from 'use-event-callback';
 
-export type AccessibilityAction = {
-  /**
-   * used as an a11y label for the `accessibilityAction`
-   */
-  label: string;
-  /**
-   * callback to be invoked as `onAccessibilityAction` for this action name
-   */
-  onAction: () => void;
-  /**
-   * whether to not expose the accessibility action to the user
-   * disables this action in both `accessibilityActions` & `onAccessibilityAction`
-   */
-  disabled?: boolean;
-};
-
-export type AccessibilityActions = Record<
-  AccessibilityActionName | string,
-  AccessibilityAction | undefined
->;
+import { AccessibilityActions } from './types';
 
 export const useAccessibilityActions = (
   actionsGetter: () => AccessibilityActions,
